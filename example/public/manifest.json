@@ -1,0 +1,8 @@
+{
+  "short_name": "material-json-schema",
+  "name": "material-json-schema",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
