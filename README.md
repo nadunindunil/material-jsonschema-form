@@ -26,6 +26,10 @@ class Example extends React.Component {
 }
 ```
 
+## Issues
+
+- https://github.com/reduxjs/react-redux/issues/1166
+
 ## License
 
 MIT © [nadunindunil](https://github.com/nadunindunil)
