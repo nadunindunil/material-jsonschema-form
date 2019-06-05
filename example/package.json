@@ -1,6 +1,6 @@
 {
-  "name": "material-json-schema-example",
-  "homepage": "https://nadunindunil.github.io/material-json-schema",
+  "name": "material-jsonschema-form-example",
+  "homepage": "https://nadunindunil.github.io/material-jsonschema-form",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
@@ -10,7 +10,7 @@
     "prop-types": "^15.7.2",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
-    "material-json-schema": "file:..",
+    "material-jsonschema-form": "file:..",
     "react-redux": "^5.0.7",
     "react-scripts": "^1.1.4",
     "redux": "^4.0.1",

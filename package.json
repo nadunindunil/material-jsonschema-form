@@ -1,10 +1,10 @@
 {
-  "name": "material-json-schema",
+  "name": "material-jsonschema-form",
   "version": "1.0.0",
   "description": "material-ui form generated from json",
   "author": "nadunindunil",
   "license": "MIT",
-  "repository": "nadunindunil/material-json-schema",
+  "repository": "nadunindunil/material-jsonschema-form",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",

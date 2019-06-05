@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from '../withRoot';
-import Form from 'material-json-schema';
+import Form from 'material-jsonschema-form';
 
 const styles = theme => ({
   root: {

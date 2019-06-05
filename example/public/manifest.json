@@ -1,6 +1,6 @@
 {
-  "short_name": "material-json-schema",
-  "name": "material-json-schema",
+  "short_name": "material-jsonschema-form",
+  "name": "material-jsonschema-form",
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",
