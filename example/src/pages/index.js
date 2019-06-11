@@ -7,19 +7,24 @@ import { withStyles } from '@material-ui/core/styles';
 import withRoot from '../withRoot';
 import Form from 'material-jsonschema-form';
 
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
     textAlign: 'center'
     // paddingTop: theme.spacing.unit * 20
   },
-  formContainer:{
+  formContainer: {
     padding: theme.spacing.unit * 4
   }
 });
 
 class Index extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       formJson: {
@@ -31,20 +36,6 @@ class Index extends React.Component {
             properties: [
               { name: 'projectId', component: 'text', label: 'Team Name' },
               { name: 'appName', component: 'text', label: 'Application Name' }
-            ]
-          },
-          {
-            title: 'A registration form2',
-            description: 'A simple form example2.',
-            properties: [
-              { name: 'teamName', component: 'text', label: 'Team Name' },
-              { name: 'division', component: 'text', label: 'Division' },
-              {
-                name: 'pay',
-                component: 'select',
-                label: 'Pay Method',
-                elements: [{ label: 'label1', value: 'value1' }, { label: 'label2', value: 'value2' }]
-              }
             ]
           },
           {
@@ -88,10 +79,9 @@ class Index extends React.Component {
       }
     };
   }
-  
+
   render() {
     const { classes } = this.props;
-
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -102,8 +92,18 @@ class Index extends React.Component {
           </Toolbar>
         </AppBar>
         <div className={classes.formContainer}>
-          <Form schema={this.state.formJson}/>
+          <Form schema={this.state.formJson} />
         </div>
+        <Editor
+          value={JSON.stringify(this.state.formJson)}
+          onValueChange={code => this.setState({ formJson: JSON.parse(code) })}
+          highlight={code => highlight(code, languages.js)}
+          padding={10}
+          style={{
+            fontFamily: '"Fira code", "Fira Mono", monospace',
+            fontSize: 12
+          }}
+        />
       </div>
     );
   }
