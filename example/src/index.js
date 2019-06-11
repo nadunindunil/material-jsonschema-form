@@ -5,7 +5,7 @@ import Index from './pages/index';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { reducer as formReducer } from 'material-jsonschema-form';
+import { reducer as formReducer } from 'redux-form';
 import logger from 'redux-logger';
 
 const rootReducer = combineReducers({

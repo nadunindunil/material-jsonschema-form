@@ -119,7 +119,7 @@ export type FormTableProps = {
 };
 
 // prev { fields, meta: { error, submitFailed }, classes, rows, title }
-function FormTable({ fields, classes, rows, title }: any) {
+function FormTable({ fields, classes, rows, title }: FormTableProps) {
   return (
     <Card style={{ flex: 1 }}>
       <Typography className={classes.header} variant="h6" gutterBottom>

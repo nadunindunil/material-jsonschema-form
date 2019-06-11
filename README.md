@@ -12,19 +12,42 @@ npm install --save material-jsonschema-form
 
 ## Usage
 
-```tsx
-import * as React from 'react'
+```jsx
+import * as React from 'react';
 
-import MyComponent from 'material-jsonschema-form'
+import Form from 'material-jsonschema-form';
 
 class Example extends React.Component {
-  render () {
-    return (
-      <MyComponent />
-    )
+  constructor(props) {
+    super(props);
+    this.state = {
+      formJson: {
+        formName: 'sampleForm',
+        forms: [
+          {
+            title: 'A registration form1',
+            description: 'A simple form example1.',
+            properties: [
+              { name: 'projectId', component: 'text', label: 'Team Name' },
+              { name: 'appName', component: 'text', label: 'Application Name' }
+            ]
+          }
+        ]
+      }
+    };
+  }
+  render() {
+    return <Form schema={this.state.formJson} />;
   }
 }
 ```
+
+## Todo
+- [x] Basic Implementation
+- [ ] Validations
+- [ ] Auto suggest
+- [ ] File uploads
+- [ ] Custom styles
 
 ## Issues
 

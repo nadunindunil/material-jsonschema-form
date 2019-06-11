@@ -59,7 +59,7 @@ export type PreviewProps = {
   handleReset?: any;
 };
 
-class Preview extends React.Component<any> {
+class Preview extends React.Component<PreviewProps> {
   state = {
     expanded: null
   };
@@ -74,7 +74,6 @@ class Preview extends React.Component<any> {
     const { classes, formSchema, previousPage, values } = this.props;
     const { expanded } = this.state;
 
-    // console.log(values);
     return (
       <Grid container spacing={8} direction="column">
         <Grid item xs={12}>

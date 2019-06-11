@@ -30,7 +30,7 @@ export type FormProps = {
 
 export type FormState = { activeStep: number };
 
-export class Form extends React.Component<any,any> {
+export class Form extends React.Component<FormProps,FormState> {
   constructor(props: FormProps, context?: any) {
     super(props,context);
     this.handleNext = this.handleNext.bind(this);
