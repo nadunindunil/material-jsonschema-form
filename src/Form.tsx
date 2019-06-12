@@ -13,7 +13,8 @@ const styles: any = {
     flexWrap: 'wrap'
   },
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    textAlign: 'center' // TODO 
   },
   marginBottomButton: {
     marginTop: 15
@@ -133,7 +134,7 @@ export class Form extends React.Component<FormProps,FormState> {
                         <Button disabled={activeStep === 1} onClick={this.handleBack}>
                           Back
                         </Button>
-                        <Button variant="raised" color="primary" onClick={this.handleNext}>
+                        <Button variant="contained" color="primary" onClick={this.handleNext}>
                           {activeStep === steps.length ? 'Preview' : 'Next'}
                         </Button>
                       </CardContent>

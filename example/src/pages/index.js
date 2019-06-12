@@ -3,22 +3,23 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from '../withRoot';
 import Form from 'material-jsonschema-form';
 
-import Editor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
+import JSONInput from 'react-json-editor-ajrm/index';
+import locale from 'react-json-editor-ajrm/locale/en';
+
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    textAlign: 'center'
+    flexGrow: 1
     // paddingTop: theme.spacing.unit * 20
   },
   formContainer: {
+    textAlign: 'left',
     padding: theme.spacing.unit * 4
   }
 });
@@ -27,7 +28,58 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isValid: true,
       formJson: {
+        formName: 'test',
+        forms: [
+          {
+            title: 'A registration form1',
+            description: 'A simple form example1.',
+            properties: [
+              { name: 'projectId', component: 'text', label: 'Team Name' },
+              { name: 'appName', component: 'text', label: 'Application Name' }
+            ]
+          },
+          {
+            title: 'A table form',
+            description: 'A simple form example2.',
+            isCard: false,
+            properties: [
+              {
+                title: 'table 1',
+                name: 'testTable',
+                component: 'table',
+                rows: [
+                  {
+                    name: 'sel3',
+                    label: 'Dummy Select',
+                    component: 'select',
+                    elements: [{ label: 'label1', value: 'value1' }, { label: 'label2', value: 'value2' }]
+                  },
+                  { name: 'title1', component: 'text', label: 'Team 1' },
+                  { name: 'title2', component: 'text', label: 'Team 2' }
+                ]
+              },
+              {
+                title: 'table 2',
+                name: 'testTable2',
+                component: 'table',
+                rows: [
+                  {
+                    name: 'projNam',
+                    label: 'select',
+                    component: 'select',
+                    elements: [{ label: 'label1', value: 'value1' }, { label: 'label2', value: 'value2' }]
+                  },
+                  { name: 'title3', component: 'text', label: 'Title 1' },
+                  { name: 'title4', component: 'text', label: 'Title 2' }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      realJson: {
         formName: 'test',
         forms: [
           {
@@ -91,19 +143,32 @@ class Index extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <div className={classes.formContainer}>
-          <Form schema={this.state.formJson} />
+        <div style={{ maxWidth: '1400px', maxHeight: '100%' }}>
+          <JSONInput
+            placeholder={this.state.formJson} // data to display
+            theme="light_mitsuketa_tribute"
+            locale={locale}
+            onChange={code => {
+              if (code.jsObject) {
+                this.setState({ isValid: true });
+                this.setState({ formJson: code.jsObject });
+              }
+              else{
+                this.setState({ isValid: false });
+              }
+            }}
+            colors={{
+              string: '#DAA520' // overrides theme colors with whatever color value you want
+            }}
+            height="550px"
+          />
         </div>
-        <Editor
-          value={JSON.stringify(this.state.formJson)}
-          onValueChange={code => this.setState({ formJson: JSON.parse(code) })}
-          highlight={code => highlight(code, languages.js)}
-          padding={10}
-          style={{
-            fontFamily: '"Fira code", "Fira Mono", monospace',
-            fontSize: 12
-          }}
-        />
+        <Button disabled={!this.state.isValid} color="primary" onClick={() => this.setState({ realJson: this.state.formJson })}>Update Code</Button>
+        <div className={classes.formContainer}>
+          <ErrorBoundary>
+            <Form schema={this.state.realJson} />
+          </ErrorBoundary>
+        </div>
       </div>
     );
   }
