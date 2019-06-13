@@ -130,10 +130,17 @@ class Index extends React.Component {
         ]
       }
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
   }
+
+  onSubmit = values => {
+    console.log(values);
+  };
 
   render() {
     const { classes } = this.props;
+    const { isValid, formJson, realJson } = this.state;
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -145,15 +152,14 @@ class Index extends React.Component {
         </AppBar>
         <div style={{ maxWidth: '1400px', maxHeight: '100%' }}>
           <JSONInput
-            placeholder={this.state.formJson} // data to display
+            placeholder={formJson} // data to display
             theme="light_mitsuketa_tribute"
             locale={locale}
             onChange={code => {
               if (code.jsObject) {
                 this.setState({ isValid: true });
                 this.setState({ formJson: code.jsObject });
-              }
-              else{
+              } else {
                 this.setState({ isValid: false });
               }
             }}
@@ -163,10 +169,12 @@ class Index extends React.Component {
             height="550px"
           />
         </div>
-        <Button disabled={!this.state.isValid} color="primary" onClick={() => this.setState({ realJson: this.state.formJson })}>Update Code</Button>
+        <Button disabled={!isValid} color="primary" onClick={() => this.setState({ realJson: formJson })}>
+          Update Code
+        </Button>
         <div className={classes.formContainer}>
           <ErrorBoundary>
-            <Form schema={this.state.realJson} />
+            <Form schema={realJson} onSubmit={this.onSubmit} />
           </ErrorBoundary>
         </div>
       </div>
