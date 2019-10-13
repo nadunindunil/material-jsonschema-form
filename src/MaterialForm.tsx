@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Field, FieldArray, InjectedFormProps } from 'redux-form';
-import Text from './Text';
-import { Card, Typography, Grid, CardContent, Button, MenuItem } from '@material-ui/core';
+import { Field, FieldArray } from 'formik';
+import { TextField } from 'formik-material-ui';
+import { Card, Typography, Grid, CardContent, MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+// import FormTable from './FormTable';
+import Wizard from './Wizard';
 import FormTable from './FormTable';
-import Select from './Select';
 
 export const styles: any = (theme: any) => ({
   container: {
@@ -59,14 +60,13 @@ export type MaterialFormProps = {
   submitting?: any;
   schema?: any;
   previousPage?: any;
-  isFirst?: boolean;
+  values?: any;
 };
 
-class MaterialForm extends React.Component<MaterialFormProps & InjectedFormProps> {
+class MaterialForm extends React.Component<any> {
   render() {
-    const { classes, handleSubmit, pristine, submitting, schema, previousPage, isFirst } = this.props;
-
-    let ParentComp;
+    const { classes, schema, values } = this.props;
+    let ParentComp; // parent component can be any other react component
 
     if (typeof schema.isCard === 'boolean' && !schema.isCard) {
       ParentComp = React.Fragment;
@@ -75,7 +75,7 @@ class MaterialForm extends React.Component<MaterialFormProps & InjectedFormProps
     }
 
     return (
-      <form onSubmit={handleSubmit} noValidate autoComplete="off">
+      <Wizard.Page>
         <ParentComp>
           {schema.title ? (
             <Typography className={classes.header} variant="h6" gutterBottom>
@@ -91,7 +91,7 @@ class MaterialForm extends React.Component<MaterialFormProps & InjectedFormProps
                     <Grid item xs={4} key={index}>
                       <Field
                         name={item.name}
-                        component={Text}
+                        component={TextField}
                         label={item.label}
                         className={classes.textField}
                         margin="normal"
@@ -105,11 +105,12 @@ class MaterialForm extends React.Component<MaterialFormProps & InjectedFormProps
                     <Grid item xs={4} key={index}>
                       <Field
                         name={item.name}
-                        component={Select}
+                        component={TextField}
                         label={item.label}
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
+                        select
                       >
                         {item.elements.map((option: any) => (
                           <MenuItem key={option.value} value={option.value}>
@@ -125,10 +126,15 @@ class MaterialForm extends React.Component<MaterialFormProps & InjectedFormProps
                     <Grid item xs={10} key={index}>
                       <FieldArray
                         name={item.name}
-                        title={item.title}
-                        component={FormTable as any}
-                        rows={item.rows}
-                        key={index}
+                        render={arrayHelpers => (
+                          <FormTable
+                            arrayHelpers={arrayHelpers}
+                            title={item.title}
+                            rows={item.rows}
+                            name={item.name}
+                            values={values}
+                          />
+                        )}
                       />
                     </Grid>
                   );
@@ -138,28 +144,7 @@ class MaterialForm extends React.Component<MaterialFormProps & InjectedFormProps
             </Grid>
           </CardContent>
         </ParentComp>
-
-        {!isFirst ? (
-          <Button
-            className={classes.topMarginButton}
-            variant="contained"
-            disabled={pristine || submitting}
-            onClick={previousPage}
-          >
-            Previous
-          </Button>
-        ) : null}
-
-        <Button
-          className={classes.topMarginButton}
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={pristine || submitting}
-        >
-          Next
-        </Button>
-      </form>
+      </Wizard.Page>
     );
   }
 }

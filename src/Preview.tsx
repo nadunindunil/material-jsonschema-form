@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { Grid, Button, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { getFormValues } from 'redux-form';
-import { connect } from 'react-redux';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -54,10 +52,7 @@ const styles: any = (theme: any) => ({
 export type PreviewProps = {
   classes?: any;
   formSchema?: any;
-  previousPage?: any;
   values?: any;
-  handleReset?: any;
-  formSubmit:any;
 };
 
 class Preview extends React.Component<PreviewProps> {
@@ -72,7 +67,7 @@ class Preview extends React.Component<PreviewProps> {
   };
 
   render() {
-    const { classes, formSchema, previousPage, values } = this.props;
+    const { classes, formSchema, values } = this.props;
     const { expanded } = this.state;
 
     return (
@@ -119,15 +114,6 @@ class Preview extends React.Component<PreviewProps> {
                                       ))}
                                     </TableRow>
                                   ))}
-                                {/* <TableRow key={row.id}>
-                                    <TableCell component="th" scope="row">
-                                      {row.name}
-                                    </TableCell>
-                                    <TableCell align="right">{row.calories}</TableCell>
-                                    <TableCell align="right">{row.fat}</TableCell>
-                                    <TableCell align="right">{row.carbs}</TableCell>
-                                    <TableCell align="right">{row.protein}</TableCell>
-                                  </TableRow> */}
                               </TableBody>
                             </Table>
                           </Paper>
@@ -142,24 +128,9 @@ class Preview extends React.Component<PreviewProps> {
             ))}
           </div>
         </Grid>
-        <Grid item xs={12}>
-          <Button className={classes.topMarginButton} onClick={previousPage}>
-            Previous
-          </Button>
-          <Button
-            className={classes.topMarginButton}
-            variant="contained"
-            color="primary"
-            onClick={this.props.formSubmit}
-          >
-            Submit
-          </Button>
-        </Grid>
       </Grid>
     );
   }
 }
 
-export default connect((state: any) => ({
-  values: getFormValues('test')(state)
-}))(withStyles(styles)(Preview));
+export default withStyles(styles)(Preview);

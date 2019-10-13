@@ -37,7 +37,13 @@ class Index extends React.Component {
             description: 'A simple form example1.',
             properties: [
               { name: 'projectId', component: 'text', label: 'Team Name' },
-              { name: 'appName', component: 'text', label: 'Application Name' }
+              { name: 'appName', component: 'text', label: 'Application Name' },
+              {
+                name: 'selection1',
+                label: 'Dummy Select',
+                component: 'select',
+                elements: [{ label: 'label1', value: 'value1' }, { label: 'label2', value: 'value2' }]
+              },
             ]
           },
           {
@@ -87,7 +93,13 @@ class Index extends React.Component {
             description: 'A simple form example1.',
             properties: [
               { name: 'projectId', component: 'text', label: 'Team Name' },
-              { name: 'appName', component: 'text', label: 'Application Name' }
+              { name: 'appName', component: 'text', label: 'Application Name' },
+              {
+                name: 'selection1',
+                label: 'Dummy Select',
+                component: 'select',
+                elements: [{ label: 'label1', value: 'value1' }, { label: 'label2', value: 'value2' }]
+              },
             ]
           },
           {
@@ -135,7 +147,7 @@ class Index extends React.Component {
   }
 
   onSubmit = values => {
-    console.log(values);
+    window.alert(JSON.stringify(values, null, 2));
   };
 
   render() {
@@ -174,7 +186,7 @@ class Index extends React.Component {
         </Button>
         <div className={classes.formContainer}>
           <ErrorBoundary>
-            <Form schema={realJson} onSubmit={this.onSubmit} />
+            <Form schema={realJson} onSubmit={this.onSubmit} initialValues={{}}/>
           </ErrorBoundary>
         </div>
       </div>

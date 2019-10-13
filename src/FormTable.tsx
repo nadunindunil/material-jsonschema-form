@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import {
   Table,
   TableBody,
@@ -13,11 +13,10 @@ import {
   Card,
   CardContent
 } from '@material-ui/core';
+import { TextField } from 'formik-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Add from '@material-ui/icons/AddCircle';
-import Select from './Select';
-import Text from './Text';
 
 const styles: any = (theme: any) => ({
   table: {
@@ -112,14 +111,14 @@ const CustomTableCell: any = withStyles({
 })(TableCell);
 
 export type FormTableProps = {
-  fields?: any;
   classes?: any;
   rows?: any;
   title?: string;
+  arrayHelpers?: any;
 };
 
 // prev { fields, meta: { error, submitFailed }, classes, rows, title }
-function FormTable({ fields, classes, rows, title }: FormTableProps) {
+function FormTable({ arrayHelpers, classes, rows, title, name, values }: any) {
   return (
     <Card style={{ flex: 1 }}>
       <Typography className={classes.header} variant="h6" gutterBottom>
@@ -139,64 +138,70 @@ function FormTable({ fields, classes, rows, title }: FormTableProps) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {fields.map((request: any, index: number) => (
-                <TableRow key={index}>
-                  {rows.map((row: any, index: number) => {
-                    if (row.component === 'text') {
-                      return (
-                        <CustomTableCell key={index}>
-                          <Field
-                            name={`${request}.${row.name}`}
-                            component={Text}
-                            className={classes.tableTextField}
-                            type="text"
-                            margin="dense"
-                            variant="outlined"
-                            InputProps={{
-                              classes: {
-                                input: classes.resize
-                              },
-                              inputProps: {
-                                maxLength: 50
-                              }
-                            }}
-                          />
-                        </CustomTableCell>
-                      );
-                    }
-                    if (row.component === 'select') {
-                      return (
-                        <CustomTableCell key={index}>
-                          <Field
-                            name={`${request}.${row.name}`}
-                            component={Select}
-                            className={classes.tableTextField2}
-                            margin="dense"
-                            variant="outlined"
-                            InputProps={{
-                              classes: {
-                                input: classes.resize
-                              }
-                            }}
-                          >
-                            {row.elements.map((option: any) => (
-                              <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                              </MenuItem>
-                            ))}
-                          </Field>
-                        </CustomTableCell>
-                      );
-                    } else return null;
-                  })}
+              {values[name] &&
+                values[name].map((request: any, parentIndex: number) => (
+                  <TableRow key={`${parentIndex}-${request}`}>
+                    {rows.map((row: any, index: number) => {
+                      if (row.component === 'text') {
+                        return (
+                          <CustomTableCell key={index}>
+                            <Field
+                              name={`${name}.${parentIndex}.${row.name}`}
+                              component={TextField}
+                              className={classes.tableTextField}
+                              type="text"
+                              margin="dense"
+                              variant="outlined"
+                              InputProps={{
+                                classes: {
+                                  input: classes.resize
+                                },
+                                inputProps: {
+                                  maxLength: 50
+                                }
+                              }}
+                            />
+                          </CustomTableCell>
+                        );
+                      }
+                      if (row.component === 'select') {
+                        return (
+                          <CustomTableCell key={index}>
+                            <Field
+                              name={`${name}.${parentIndex}.${row.name}`}
+                              component={TextField}
+                              className={classes.tableTextField2}
+                              margin="dense"
+                              variant="outlined"
+                              select
+                              InputProps={{
+                                classes: {
+                                  input: classes.resize
+                                }
+                              }}
+                            >
+                              {row.elements.map((option: any) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                  {option.label}
+                                </MenuItem>
+                              ))}
+                            </Field>
+                          </CustomTableCell>
+                        );
+                      } else return null;
+                    })}
 
-                  <CustomTableCell>
-                    <IconButton aria-label="Delete" id={`${request}-deleteBtn`} onClick={() => fields.remove(index)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </CustomTableCell>
-                </TableRow>
-              ))}
+                    <CustomTableCell>
+                      <IconButton
+                        aria-label="Delete"
+                        id={`${name}.${parentIndex}-deleteBtn`}
+                        onClick={() => arrayHelpers.remove(parentIndex)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </CustomTableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </div>
@@ -205,9 +210,9 @@ function FormTable({ fields, classes, rows, title }: FormTableProps) {
             <Typography
               className={classes.addText}
               variant="body2"
-              id={`${fields.name}-addBtn`}
+              id={`${arrayHelpers.name}-addBtn`}
               color="primary"
-              onClick={() => fields.push()}
+              onClick={() => arrayHelpers.push()}
             >
               <Add className={classes.icon} /> Add Row
             </Typography>

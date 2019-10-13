@@ -1,11 +1,8 @@
 import * as React from 'react';
-
-import { Stepper, Step, StepLabel, Grid, Card, CardContent, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-
-import { reduxForm } from 'redux-form';
-import Preview from './Preview';
 import MaterialForm from './MaterialForm';
+import Wizard from './Wizard';
 
 const styles: any = {
   container: {
@@ -28,122 +25,37 @@ export type FormProps = {
     forms: any;
   };
   onSubmit: Function;
+  initialValues: object;
 };
 
-export type FormState = { activeStep: number };
-
-export class Form extends React.Component<FormProps, FormState> {
-  constructor(props: FormProps, context?: any) {
-    super(props, context);
-    this.handleNext = this.handleNext.bind(this);
-    this.handleBack = this.handleBack.bind(this);
-    this.submit = this.submit.bind(this);
-    this.state = {
-      activeStep: 1
-    };
-  }
-
-  submit = (values: any) => {
-    this.props.onSubmit(values);
-  };
-
-  getStepContent(stepIndex: number) {
-    const formJson: any = this.props.schema;
-
-    const MForm: any = reduxForm({
-      form: formJson.formName,
-      destroyOnUnmount: false,
-      forceUnregisterOnUnmount: true
-    })(MaterialForm as any);
-
-    let stepForm;
-
-    formJson.forms.forEach((form: object, index: number) => {
-      if (formJson.forms.length + 1 < stepIndex) {
-        stepForm = 'Unknown stepIndex';
-      }
-      if (index + 1 === stepIndex) {
-        stepForm = (
-          <MForm onSubmit={this.handleNext} previousPage={this.handleBack} schema={form} isFirst={index + 1 === 1} />
-        );
-      }
-    });
-    return stepForm;
-  }
-
+export class Form extends React.Component<FormProps> {
   getSteps() {
     let nameList = this.props.schema.forms.map((form: any) => form.title);
     nameList.push('Preview');
     return nameList;
   }
 
-  handleNext = () => {
-    const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep + 1
-    });
-  };
-
-  handleBack = () => {
-    const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep - 1
-    });
-  };
-
-  handleReset = () => {
-    this.setState({
-      activeStep: 1
-    });
-  };
-
   render() {
     const steps = this.getSteps();
-    const { activeStep } = this.state;
-    const { classes } = this.props;
+    const { classes, schema, initialValues, onSubmit } = this.props;
 
     return (
       <div className={classes.root}>
         <Grid container spacing={8}>
           <Grid item xs={12}>
-            <Stepper activeStep={activeStep - 1} alternativeLabel>
-              {steps.map((label: string, index: number) => (
-                <Step key={index}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Grid>
-          <Grid item xs={12}>
-            <div>
-              {this.state.activeStep === steps.length ? (
-                <div>
-                  <Preview
-                    handleReset={this.handleReset}
-                    previousPage={this.handleBack}
-                    formSchema={this.props.schema}
-                    formSubmit={this.submit}
-                  />
-                </div>
-              ) : (
-                <div>
-                  {this.getStepContent(activeStep)}
-                  {process.env.REACT_APP_ENV === 'qa' || process.env.NODE_ENV === 'development' ? (
-                    <Card className={classes.marginBottomButton}>
-                      <CardContent>
-                        {'buttons are for testing purposes'}
-                        <Button disabled={activeStep === 1} onClick={this.handleBack}>
-                          Back
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={this.handleNext}>
-                          {activeStep === steps.length ? 'Preview' : 'Next'}
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ) : null}
-                </div>
-              )}
-            </div>
+            <Wizard
+              formSchema={schema}
+              steps={steps}
+              initialValues={initialValues}
+              onSubmit={(values: any, actions: any) => {
+                onSubmit(values, actions);
+                actions.setSubmitting(false);
+              }}
+            >
+              {this.props.schema.forms.map((form: object, index: number) => {
+                return <MaterialForm schema={form} key={index} />;
+              })}
+            </Wizard>
           </Grid>
         </Grid>
       </div>
