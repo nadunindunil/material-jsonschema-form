@@ -57,6 +57,7 @@ export type PreviewProps = {
   previousPage?: any;
   values?: any;
   handleReset?: any;
+  formSubmit:any;
 };
 
 class Preview extends React.Component<PreviewProps> {
@@ -149,7 +150,7 @@ class Preview extends React.Component<PreviewProps> {
             className={classes.topMarginButton}
             variant="contained"
             color="primary"
-            onClick={this.props.handleReset}
+            onClick={this.props.formSubmit}
           >
             Submit
           </Button>

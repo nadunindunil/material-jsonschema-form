@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Stepper, Step, StepLabel, Grid,Card, CardContent, Button } from '@material-ui/core';
+import { Stepper, Step, StepLabel, Grid, Card, CardContent, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import { reduxForm } from 'redux-form';
@@ -14,7 +14,7 @@ const styles: any = {
   },
   root: {
     flexGrow: 1,
-    textAlign: 'center' // TODO 
+    textAlign: 'center' // TODO
   },
   marginBottomButton: {
     marginTop: 15
@@ -27,23 +27,24 @@ export type FormProps = {
     formName: string;
     forms: any;
   };
+  onSubmit: Function;
 };
 
 export type FormState = { activeStep: number };
 
-export class Form extends React.Component<FormProps,FormState> {
+export class Form extends React.Component<FormProps, FormState> {
   constructor(props: FormProps, context?: any) {
-    super(props,context);
+    super(props, context);
     this.handleNext = this.handleNext.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.submit = this.submit.bind(this);
     this.state = {
       activeStep: 1
     };
   }
 
   submit = (values: any) => {
-    console.log(values);
-    // this.props.actions.sumbitForm(data);
+    this.props.onSubmit(values);
   };
 
   getStepContent(stepIndex: number) {
@@ -121,13 +122,13 @@ export class Form extends React.Component<FormProps,FormState> {
                     handleReset={this.handleReset}
                     previousPage={this.handleBack}
                     formSchema={this.props.schema}
+                    formSubmit={this.submit}
                   />
                 </div>
               ) : (
                 <div>
-                  
                   {this.getStepContent(activeStep)}
-                    {process.env.REACT_APP_ENV === 'qa' || process.env.NODE_ENV === 'development' ? (
+                  {process.env.REACT_APP_ENV === 'qa' || process.env.NODE_ENV === 'development' ? (
                     <Card className={classes.marginBottomButton}>
                       <CardContent>
                         {'buttons are for testing purposes'}
@@ -139,8 +140,7 @@ export class Form extends React.Component<FormProps,FormState> {
                         </Button>
                       </CardContent>
                     </Card>
-                  ) : null}            
-               
+                  ) : null}
                 </div>
               )}
             </div>
