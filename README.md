@@ -4,6 +4,12 @@
 
 [![NPM](https://img.shields.io/npm/v/material-jsonschema-form.svg)](https://www.npmjs.com/package/material-jsonschema-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+## Install
+
+```bash
+npm install --save material-jsonschema-form
+```
+
 ## Usage
 
 ```jsx
