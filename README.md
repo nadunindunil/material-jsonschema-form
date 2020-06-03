@@ -1,14 +1,8 @@
 # material-jsonschema-form
 
-> material-ui form generated from json
+> This project contains a material-ui form generated from JSON. 
 
 [![NPM](https://img.shields.io/npm/v/material-jsonschema-form.svg)](https://www.npmjs.com/package/material-jsonschema-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
-## Install
-
-```bash
-npm install --save material-jsonschema-form
-```
 
 ## Usage
 
@@ -98,22 +92,77 @@ class Example extends React.Component {
 }
 ```
 
-## How to contribute 
+## Getting Started
 
-Inside the project folder, you can run some built-in commands:
+These instructions will get the copy of the project up and running on your local machine for development and testing purposes.
+A step by step series of examples that tell you how to get a development environment running
 
-### `npm start` or `yarn start`
+### Installing
 
-Runs the library in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+First run the following command in the root folder
 
-### `npm run test` or `yarn run test`
+```
+npm install
+```
+
+Then cd into the /example directory and run this command again.
+
+### Development
+
+Local development has been broken into two parts.
+First run the command in the root folder then in another tab cd into the example folder and run the command.
+
+```
+npm start
+```
+or
+
+```
+yarn start
+```
+
+This runs the library in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### Running the tests
 
 Runs the test watcher in an interactive mode.
 
-### `npm run build` or `yarn build`
+```
+npm run test
+```
+or
+
+```
+yarn run test
+```
+
+### Build
 
 Builds the library for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+```
+npm run build
+```
+or
+
+```
+yarn build
+```
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://github.com/nadunindunil/material-jsonschema-form) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [Git](https://git-scm.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/nadunindunil/material-jsonschema-form/tags). 
+
+## Authors
+
+* **Nadun Indunil** - *Initial work* - [(https://github.com/nadunindunil)
+
+See also the list of [contributors](https://github.com/nadunindunil/material-jsonschema-form/graphs/contributors) who participated in this project.
 
 ## Todo
 
